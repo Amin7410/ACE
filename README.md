@@ -27,7 +27,7 @@ Auto Clicker Enhanced: Một Công Cụ Tự Động Hóa UI Mạnh Mẽ với K
 Auto Clicker Enhanced là một ứng dụng tự động hóa giao diện người dùng (UI automation) đa năng, được thiết kế để đơn giản hóa và tăng tốc các tác vụ lặp đi lặp lại trên máy tính của bạn. Bằng cách kết hợp sức mạnh của Python cho giao diện người dùng linh hoạt và logic nghiệp vụ, cùng với C# cho tương tác cấp thấp với hệ điều hành Windows, công cụ này cung cấp một giải pháp đáng tin cậy và hiệu quả cho nhiều nhu cầu tự động hóa.
 Dù bạn cần tự động hóa các cú nhấp chuột đơn giản, chuỗi phím phức tạp, nhập liệu văn bản, hoặc các luồng công việc phức tạp dựa trên trạng thái màn hình, Auto Clicker Enhanced đều có thể xử lý. Với các tính năng nâng cao như AI Brain và Drawing Templates, nó mở ra cánh cửa cho các kịch bản tự động hóa thông minh và trực quan hơn.
 
-========================================================================================================================================================
+======================================================================================================================================================
 
 ## Tính năng
     Jobs (Công việc):
@@ -90,7 +90,7 @@ Dù bạn cần tự động hóa các cú nhấp chuột đơn giản, chuỗi 
     Giao tiếp qua Named Pipes để đảm bảo độ tin cậy, hiệu suất cao và khả năng tránh các xung đột thường gặp khi tự động hóa UI bằng Python thuần túy.
     Hỗ trợ các cửa sổ tương tác (overlay trong suốt) để chọn điểm, vùng, hoặc vẽ đường đi trên màn hình một cách trực quan.
 
-========================================================================================================================================================
+======================================================================================================================================================
 
 ## Kiến trúc
 
@@ -118,22 +118,38 @@ Dự án sử dụng kiến trúc phân tầng kết hợp Python và C# để t
     G <--> I
 
 Python Layer:
-    - main.py: Điểm vào ứng dụng, khởi tạo các thành phần chính và khởi động dịch vụ C#.
-    - GUI (Tkinter): Cung cấp giao diện người dùng tương tác, được xây dựng trên các module như gui/job_list, gui/job_edit, gui/trigger_list, v.v.
-    - JobManager: Trung tâm điều phối chính, quản lý tất cả Jobs, Triggers, Shared Conditions và Profile. Nó giao tiếp với ConfigLoader để lưu/tải dữ liệu và điều khiển các JobExecutor và Observer.
-    - Observer: Chạy trong một luồng nền, chịu trách nhiệm quản lý và kích hoạt các Triggers, đồng thời duy trì "trạng thái thế giới" cho tính năng AI Brain.
-    - JobExecutor: Chạy trong một luồng riêng cho mỗi Job, thực thi các hành động của Job theo tuần tự và logic rẽ nhánh.
-    - Actions & Conditions: Các định nghĩa logic cốt lõi cho các hành động và điều kiện tự động hóa.
-    - Python C# Bridge (python_csharp_bridge.py): Lớp client Python chịu trách nhiệm giao tiếp với dịch vụ C# thông qua Named Pipes. Nó dịch các yêu cầu Python thành định dạng JSON và gửi đi, sau đó nhận và giải mã phản hồi.
-    - Utilities: Các module hỗ trợ cho việc quản lý cấu hình, lưu trữ hình ảnh, xử lý hình ảnh, phân tích màu sắc và chuyển đổi nét vẽ.
+    main.py: Điểm vào ứng dụng, khởi tạo các thành phần chính và khởi động dịch vụ C#.
+    
+    GUI (Tkinter): Cung cấp giao diện người dùng tương tác, được xây dựng trên các module như gui/job_list, gui/job_edit, gui/trigger_list, v.v.
+    
+    JobManager: Trung tâm điều phối chính, quản lý tất cả Jobs, Triggers, Shared Conditions và Profile. Nó giao tiếp với ConfigLoader để lưu/tải dữ liệu và điều khiển các JobExecutor và Observer.
+    
+    Observer: Chạy trong một luồng nền, chịu trách nhiệm quản lý và kích hoạt các Triggers, đồng thời duy trì "trạng thái thế giới" cho tính năng AI Brain.
+    
+    JobExecutor: Chạy trong một luồng riêng cho mỗi Job, thực thi các hành động của Job theo tuần tự và logic rẽ nhánh.
+    
+    Actions & Conditions: Các định nghĩa logic cốt lõi cho các hành động và điều kiện tự động hóa.
+    
+    Python C# Bridge (python_csharp_bridge.py): Lớp client Python chịu trách nhiệm giao tiếp với dịch vụ C# thông qua Named Pipes. Nó dịch các yêu cầu 
+    
+    Python thành định dạng JSON và gửi đi, sau đó nhận và giải mã phản hồi.
+    
+    Utilities: Các module hỗ trợ cho việc quản lý cấu hình, lưu trữ hình ảnh, xử lý hình ảnh, phân tích màu sắc và chuyển đổi nét vẽ.
+    
 C# Layer (OS Interaction Service):
-    - Một ứng dụng console chạy ẩn dưới dạng dịch vụ. 
-    - Named Pipe Server: Được thiết lập trong sever/Program.cs, lắng nghe các kết nối và yêu cầu JSON từ Python thông qua Named Pipes.
-    - OS Interactions: Module cốt lõi thực hiện các tương tác cấp thấp với hệ điều hành Windows bằng cách sử dụng WinAPI (thông qua P/Invoke) và thư viện InputSimulatorStandard để giả lập chuột/bàn phím.
+    Một ứng dụng console chạy ẩn dưới dạng dịch vụ. 
+    
+    Named Pipe Server: Được thiết lập trong sever/Program.cs, lắng nghe các kết nối và yêu cầu JSON từ Python thông qua Named Pipes.
+    
+    OS Interactions: Module cốt lõi thực hiện các tương tác cấp thấp với hệ điều hành Windows bằng cách sử dụng WinAPI (thông qua P/Invoke) và thư viện 
+    
+    InputSimulatorStandard để giả lập chuột/bàn phím.
+    
     Interactive Capture Service: Một module C# chuyên biệt xử lý các tương tác phức tạp hơn như chọn vùng, chọn điểm, và vẽ tương tác trên màn hình bằng cách hiển thị các lớp phủ (overlay) trong suốt và sử dụng Global Hooks.
-    - Communication Protocol: Được định nghĩa trong sever/Protocol.cs (JSON request/response).
+    
+    Communication Protocol: Được định nghĩa trong sever/Protocol.cs (JSON request/response).
 
-========================================================================================================================================================
+======================================================================================================================================================
 
 ## Cài đặt
 
@@ -173,31 +189,44 @@ Cài đặt và cấu hình Tesseract OCR (Tùy chọn, nếu bạn dùng tính 
 + Đảm bảo tesseract.exe nằm trong biến môi trường PATH của hệ thống, HOẶC
 + Cấu hình đường dẫn trực tiếp trong tệp core/condition.py (tìm dòng pytesseract.pytesseract.tesseract_cmd = ...).
 
-========================================================================================================================================================
+======================================================================================================================================================
 ## Cách sử dụng
 
 Để khởi chạy ứng dụng:
-python main.py
+
+    python main.py
 
 Ứng dụng sẽ khởi động giao diện người dùng Tkinter.
-Tạo Jobs: Sử dụng tab "Job List" để thêm Jobs mới, chỉnh sửa hành động, hotkey và điều kiện chạy.
-Tạo Triggers: Sử dụng tab "Triggers" để định nghĩa các điều kiện kích hoạt tự động.
-Quản lý điều kiện chia sẻ: Sử dụng tab "Shared Conditions" để tạo và quản lý các điều kiện có thể tái sử dụng.
-AI Brain: Khám phá tab "AI Brain" để định cấu hình các điều kiện được theo dõi và các AI Triggers. Bật "AI Brain Active" để kích hoạt chế độ này.
-Drawing Templates: Tạo hoặc chỉnh sửa các mẫu vẽ trong tab "Drawing Templates", sau đó thêm chúng vào Jobs dưới dạng các khối hành động vẽ.
-Cấu hình
-Hồ sơ (Profiles)
-Ứng dụng quản lý các cấu hình riêng biệt (Jobs, Triggers, Conditions, Drawing Templates) thành các "Hồ sơ" (Profiles).
-Bạn có thể chuyển đổi giữa các hồ sơ, tạo hồ sơ mới, hoặc xóa hồ sơ (trừ hồ sơ default và hồ sơ đang hoạt động) thông qua menu Profiles trên thanh menu chính.
-Các file hồ sơ được lưu trữ trong thư mục profiles/ dưới dạng .profile.json.
-Đường dẫn dịch vụ C#
-Đây là cài đặt quan trọng nhất. Dịch vụ C# (sever.exe) phải được tìm thấy và chạy đúng cách để ứng dụng hoạt động. Đường dẫn này được cấu hình trong main.py (xem Cài đặt).
-Tesseract OCR
-Nếu bạn sử dụng điều kiện "Text on Screen" hoặc "Text in Relative Region", bạn cần đảm bảo Tesseract OCR được cài đặt và có thể truy cập được bởi Python.
-Tốt nhất là thêm thư mục cài đặt Tesseract vào biến môi trường PATH của hệ thống.
-Nếu không, bạn có thể chỉnh sửa thủ công đường dẫn tesseract_cmd trong tệp core/condition.py để trỏ trực tiếp đến tesseract.exe.
 
-========================================================================================================================================================
+    Tạo Jobs: Sử dụng tab "Job List" để thêm Jobs mới, chỉnh sửa hành động, hotkey và điều kiện chạy.
+
+    Tạo Triggers: Sử dụng tab "Triggers" để định nghĩa các điều kiện kích hoạt tự động.
+
+    Quản lý điều kiện chia sẻ: Sử dụng tab "Shared Conditions" để tạo và quản lý các điều kiện có thể tái sử dụng.
+
+    AI Brain: Khám phá tab "AI Brain" để định cấu hình các điều kiện được theo dõi và các AI Triggers. Bật "AI Brain Active" để kích hoạt chế độ này.
+
+    Drawing Templates: Tạo hoặc chỉnh sửa các mẫu vẽ trong tab "Drawing Templates", sau đó thêm chúng vào Jobs dưới dạng các khối hành động vẽ.
+
+Cấu hình
+
+    Hồ sơ (Profiles)
+
+    Ứng dụng quản lý các cấu hình riêng biệt (Jobs, Triggers, Conditions, Drawing Templates) thành các "Hồ sơ" (Profiles).
+
+    Bạn có thể chuyển đổi giữa các hồ sơ, tạo hồ sơ mới, hoặc xóa hồ sơ (trừ hồ sơ default và hồ sơ đang hoạt động) thông qua menu Profiles trên thanh menu chính.
+
+    Các file hồ sơ được lưu trữ trong thư mục profiles/ dưới dạng .profile.json.
+
+Đường dẫn dịch vụ C#
+    Đây là cài đặt quan trọng nhất. Dịch vụ C# (sever.exe) phải được tìm thấy và chạy đúng cách để ứng dụng hoạt động. Đường dẫn này được cấu hình trong main.py (xem Cài đặt).
+
+Tesseract OCR
+    Nếu bạn sử dụng điều kiện "Text on Screen" hoặc "Text in Relative Region", bạn cần đảm bảo Tesseract OCR được cài đặt và có thể truy cập được bởi Python.
+    Tốt nhất là thêm thư mục cài đặt Tesseract vào biến môi trường PATH của hệ thống.
+    Nếu không, bạn có thể chỉnh sửa thủ công đường dẫn tesseract_cmd trong tệp core/condition.py để trỏ trực tiếp đến tesseract.exe.
+
+======================================================================================================================================================
 
 ## Cấu trúc dự án
 
@@ -251,7 +280,7 @@ Nếu không, bạn có thể chỉnh sửa thủ công đường dẫn tesserac
 │   └── sever.csproj            # Tệp dự án C#
 └── python_csharp_bridge.py     # Lớp client Python để giao tiếp với dịch vụ C#
 
-========================================================================================================================================================
+======================================================================================================================================================
 
 ## Đóng góp
 Chào mừng mọi đóng góp! Nếu bạn muốn cải thiện dự án này:
@@ -262,7 +291,7 @@ Commit các thay đổi của bạn (git commit -m 'Add some AmazingFeature').
 Push lên nhánh của bạn (git push origin feature/AmazingFeature).
 Mở một Pull Request.
 
-========================================================================================================================================================
+======================================================================================================================================================
 
 ## Giấy phép
 Dự án này được cấp phép theo Giấy phép MIT. Xem tệp `LICENSE` để biết thêm chi tiết.
