@@ -146,7 +146,7 @@ C# Layer (OS Interaction Service):
     InputSimulatorStandard để giả lập chuột/bàn phím.
     
     Interactive Capture Service: Một module C# chuyên biệt xử lý các tương tác phức tạp hơn như chọn vùng, chọn điểm, và vẽ tương tác trên màn hình bằng cách hiển thị các lớp phủ (overlay) trong suốt và sử dụng Global Hooks.
-    
+
     Communication Protocol: Được định nghĩa trong sever/Protocol.cs (JSON request/response).
 
 ======================================================================================================================================================
@@ -296,7 +296,7 @@ Mở một Pull Request.
 ## Giấy phép
 Dự án này được cấp phép theo Giấy phép MIT. Xem tệp `LICENSE` để biết thêm chi tiết.
 
-========================================================================================================================================================
+======================================================================================================================================================
 
 ## Liên hệ
 Nếu bạn có bất kỳ câu hỏi hoặc cần hỗ trợ, vui lòng mở một Issue trong repository này.
