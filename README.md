@@ -172,17 +172,17 @@ Build dịch vụ C# OS Interaction:
 + Build project ở chế độ Debug hoặc Release cho nền tảng Windows.
 
     cd sever
-    dotnet build -c Debug --runtime win-x64 --self-contained false # Hoặc Release
+    dotnet publish -c Debug -r win-x64 --self-contained false
 
 Sau khi build, tệp thực thi sẽ nằm trong thư mục ví dụ: sever/bin/Debug/net9.0-windows/sever.exe.
 Cấu hình đường dẫn thực thi C# trong main.py:
 + Mở tệp main.py ở thư mục gốc của dự án Python.
 + Tìm dòng CSHARP_EXE_PATH_RELATIVE = ... và cập nhật đường dẫn tương đối đến tệp sever.exe đã build.
-+ Ví dụ: Nếu thư mục dự án của bạn là my_autoclicker/ và main.py nằm trong my_autoclicker/main.py, còn sever.exe nằm trong my_autoclicker/sever/bin/Debug/net9.0-windows/sever.exe, thì đường dẫn tương đối sẽ là:
++ Ví dụ: Nếu thư mục dự án của bạn là ACE/ và main.py nằm trong ACE/main.py, còn sever.exe nằm trong ACE/sever/bin/Debug/net9.0-windows/sever.exe, thì đường dẫn tương đối sẽ là:
 
     CSHARP_EXE_PATH_RELATIVE = os.path.join("sever", "bin", "Debug", "net9.0-windows", CSHARP_EXE_NAME)
 
-(Hoặc os.path.join("..", "sever", "bin", "Debug", "net9.0-windows", CSHARP_EXE_NAME) nếu main.py nằm trong một thư mục con như my_autoclicker/src/main.py và sever/ nằm ngang hàng với src/).
+(Hoặc os.path.join("..", "sever", "bin", "Debug", "net9.0-windows", CSHARP_EXE_NAME) nếu main.py nằm trong một thư mục con như ACE/src/main.py và sever/ nằm ngang hàng với src/).
 
 Cài đặt và cấu hình Tesseract OCR (Tùy chọn, nếu bạn dùng tính năng văn bản):
 + Tải xuống và cài đặt Tesseract OCR từ GitHub Tesseract.
