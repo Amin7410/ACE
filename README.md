@@ -1,100 +1,93 @@
-Auto Clicker Enhanced: Một Công Cụ Tự Động Hóa UI Mạnh Mẽ 
+Auto Clicker Enhanced: A Powerful UI Automation Tool
+
 ![alt text](https://img.shields.io/badge/Python-3.8%2B-blue.svg?logo=python&logoColor=white)
 
 ![alt text](https://img.shields.io/badge/C%23-.NET-purple.svg?logo=csharp&logoColor=white)
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
-## Mục lục
-- Giới thiệu
-- Tính năng
-- Kiến trúc
-- Cài đặt
-- Yêu cầu hệ thống
-- Các bước cài đặt
-- Cách sử dụng
-- Cấu hình
-- Hồ sơ (Profiles)
-- Đường dẫn dịch vụ C#
+## Table of Contents
+- Introduction
+- Features
+- Architecture
+- Installation
+- System Requirements
+- Installation Steps
+- Usage
+- Configuration
+- Profiles
+- C# Service Path
 - Tesseract OCR
-- Cấu trúc dự án
-- Đóng góp
-- Giấy phép
-- Liên hệ
+- Project Structure
+- Contribution
+- License
+- Contact
 
+## Introduction
 
-## Giới thiệu
-Auto Clicker Enhanced là một ứng dụng tự động hóa giao diện người dùng (UI automation) đa năng, được thiết kế để đơn giản hóa và tăng tốc các tác vụ lặp đi lặp lại trên máy tính của bạn. Bằng cách kết hợp sức mạnh của Python cho giao diện người dùng linh hoạt và logic nghiệp vụ, cùng với C# cho tương tác cấp thấp với hệ điều hành Windows, công cụ này cung cấp một giải pháp đáng tin cậy và hiệu quả cho nhiều nhu cầu tự động hóa.
-Dù bạn cần tự động hóa các cú nhấp chuột đơn giản, chuỗi phím phức tạp, nhập liệu văn bản, hoặc các luồng công việc phức tạp dựa trên trạng thái màn hình, Auto Clicker Enhanced đều có thể xử lý. Với các tính năng nâng cao như AI Brain và Drawing Templates, nó mở ra cánh cửa cho các kịch bản tự động hóa thông minh và trực quan hơn.
+Auto Clicker Enhanced is a versatile user interface (UI) automation application designed to simplify and accelerate repetitive tasks on your computer. By combining the power of Python for flexible UI and business logic with C# for low-level interaction with the Windows operating system, this tool provides a reliable and efficient solution for various automation needs.
 
-======================================================================================================================================================
+Whether you need to automate simple mouse clicks, complex key sequences, text input, or intricate workflows based on screen states, Auto Clicker Enhanced can handle it all. With advanced features like AI Brain and Drawing Templates, it opens the door to more intelligent and intuitive automation scenarios.
 
-## Tính năng
-    Jobs (Công việc):
-    Tạo và quản lý các chuỗi hành động tuần tự để thực hiện các tác vụ tự động hóa.
-    Kích hoạt bằng phím nóng (hotkey) hoặc tự động qua Triggers.
-    Cấu hình điều kiện chạy: chạy vô hạn, chạy N lần, hoặc chạy trong một khoảng thời gian cụ thể.
+## Features
 
-    Actions (Hành động):
-    Thực hiện nhiều loại tương tác UI:
-    Click chuột: Nhấp đơn, nhấp đúp, nhấn giữ/nhả chuột tại tọa độ cụ thể.
-    Di chuyển chuột: Di chuyển chuột đến tọa độ với thời gian tùy chỉnh.
-    Kéo thả: Mô phỏng thao tác kéo và thả chuột.
+    Jobs:
+        Create and manage sequential action chains to perform automation tasks.
+        Triggered by hotkeys or automatically via Triggers.
+        Configurable run conditions: infinite loops, run N times, or within a specific time range.
+        
+    Actions:
+        Perform multiple types of UI interactions:
+        Mouse clicks: single, double, press/release at specific coordinates.
+        Mouse movement: move cursor to coordinates with customizable duration.
+        Drag & drop: simulate drag-and-drop operations.
+        Scroll: vertical or horizontal
+        Key press: press a single key.
+        Key down/up: hold down or release a key.
+        Text input: type a text string.
+        Key combinations: simulate combinations (e.g., Ctrl+C).
+        Wait: pause execution for a specified time.
+        Conditional Logic (If-Then-Else): each actioncan have an assigned condition; the job flow can branch based on the result (next_action_index_if_condition_met/_not_met).
+        Absolute Actions: actions marked as "absolute" will retry until success or until retry limit is reached if their conditions are not met.
+        Fallback Sequence: define backup actions to execute if the main action fails or the absolute action conditions are not met
+    
+    Conditions:
+        Flexible state checks to control Job and Trigger logic:
+        Pixel color at a position
+        Image on screen: detect the presence of an image in a region (using template or feature matching).
+        Text on screen: recognize text in a region via OCR (supports Regex, case sensitivity, whitelist, custom dictionary).
+        Window existence: check for a window by name or class.
+        Process existence: check if a process is running.
+        Relative region text: OCR text within a region defined relative to an anchor image.
+        Color percentage in a region.
+        Multiple image patterns: detect complex patterns of sub-images positioned relative to an anchor image.
+        Shared conditions: define once and reuse across multiple Jobs or Triggers.
+    
+    Triggers:
+        Automatically start Jobs or specific actions when one or more conditions are met.
+        AND/OR logic for multiple conditions.
+        Customizable check frequency.
+    
+    AI Brain:
+        An advanced mode that continuously monitors specific conditions.
+        Create "AI Triggers" whose logic is evaluated based on aggregated and updated condition states, enabling adaptive and faster automation.
+        Drawing Templates:
+        Record mouse paths or drawings by drawing directly on the screen using an interactive interface.
+        Import mouse path data from JSON.
+        Automatically convert these drawings into sequences of move_mouse and click actions with customizable speed and delay.
+        Reuse "Drawing Blocks" in any Job.
+    
+    Profiles:
+        Manage multiple complete automation configurations (Jobs, Triggers, Shared Conditions, Drawing Templates).
+        Easily switch between profiles for different tasks or environments.
+        Reliable low-level OS interaction:
+        Uses a backend service written in C# (Windows) to perform mouse/keyboard operations and interact with the system.
+        Communication via Named Pipes ensures reliability, high performance, and avoids conflicts common with pure Python UI automation.
+        Supports interactive windows (transparent overlays) for selecting points, regions, or drawing paths visually.
 
-    Cuộn: Cuộn dọc hoặc ngang.
-    Nhấn phím: Nhấn một phím duy nhất.
-    Nhấn giữ/nhả phím: Giữ phím xuống hoặc nhả phím lên.
-    Nhập văn bản: Gõ một chuỗi văn bản.
+## Architecture
 
-    Tổ hợp phím: Mô phỏng các tổ hợp phím (ví dụ: Ctrl+C).
-    Wait (Chờ): Dừng thực thi trong một khoảng thời gian.
-    Logic Điều kiện (If-Then-Else): Mỗi hành động có thể có một điều kiện được gán; luồng Job có thể rẽ nhánh dựa trên kết quả điều kiện (next_action_index_if_condition_met/_not_met).
-    Absolute Actions (Hành động Tuyệt đối): Hành động được đánh dấu là "tuyệt đối" sẽ cố gắng thực hiện lại nhiều lần nếu điều kiện của nó không được đáp ứng, cho đến khi thành công hoặc đạt giới hạn thử lại.
-    Fallback Sequence (Chuỗi dự phòng): Định nghĩa một chuỗi các hành động dự phòng sẽ được thực thi nếu điều kiện của hành động chính không được đáp ứng hoặc hành động tuyệt đối thất bại sau các lần thử lại.
-
-    Conditions (Điều kiện):
-    Các kiểm tra trạng thái linh hoạt để điều khiển logic Job và Triggers:
-    Màu sắc tại vị trí: Kiểm tra màu pixel tại một tọa độ.
-    Hình ảnh trên màn hình: Phát hiện sự hiện diện của một hình ảnh trong một vùng màn hình (sử dụng Template Matching hoặc Feature Matching).
-    Văn bản trên màn hình: Nhận dạng văn bản trong một vùng bằng OCR (hỗ trợ Regex, phân biệt chữ hoa/thường, danh sách trắng ký tự, từ điển người dùng).
-
-    Cửa sổ tồn tại: Kiểm tra sự hiện diện của một cửa sổ theo tên hoặc lớp.
-
-    Tiến trình tồn tại: Kiểm tra xem một tiến trình có đang chạy không.
-    Văn bản trong vùng tương đối: Nhận dạng văn bản trong một vùng được xác định tương đối với một hình ảnh neo (anchor image).
-
-    Màu sắc trong vùng (%): Phân tích phần trăm pixel của một hoặc nhiều màu cụ thể trong một vùng được định nghĩa.
-    Mẫu nhiều hình ảnh: Phát hiện một mẫu phức tạp gồm nhiều hình ảnh nhỏ (sub-images) được định vị tương đối với một hình ảnh neo lớn hơn (anchor image).
-    Điều kiện chia sẻ: Định nghĩa các điều kiện một lần và tái sử dụng chúng trên nhiều Jobs hoặc Triggers.
-
-    Triggers (Kích hoạt):
-    Tự động khởi chạy Jobs hoặc các hành động cụ thể khi một hoặc nhiều điều kiện được đáp ứng.
-    Logic AND hoặc OR cho nhiều điều kiện.
-    Tần suất kiểm tra có thể tùy chỉnh.
-
-    AI Brain (Chế độ Trí tuệ nhân tạo):
-    Một chế độ nâng cao cho phép bạn đánh dấu các điều kiện cụ thể để "AI Brain" theo dõi liên tục trạng thái của chúng.
-    Tạo các "AI Triggers" mà logic của chúng được đánh giá dựa trên trạng thái tổng hợp và cập nhật của các điều kiện được theo dõi, thay vì kiểm tra từng điều kiện riêng lẻ mỗi lần. Điều này mang lại khả năng tự động hóa thích ứng và phản ứng nhanh hơn.
-
-    Drawing Templates (Mẫu vẽ):
-    Ghi lại các đường đi chuột hoặc hình vẽ bằng cách vẽ trực tiếp trên màn hình thông qua một giao diện tương tác.
-    Nhập dữ liệu đường đi chuột từ JSON.
-    Tự động chuyển đổi các nét vẽ này thành một chuỗi các hành động move_mouse và click tương ứng, có thể tùy chỉnh tốc độ và độ trễ.
-    Tái sử dụng các "Drawing Blocks" này trong bất kỳ Job nào.
-
-    Profiles (Hồ sơ):
-    Quản lý nhiều bộ cấu hình tự động hóa hoàn chỉnh (Jobs, Triggers, Shared Conditions, Drawing Templates).
-    Dễ dàng chuyển đổi giữa các hồ sơ khác nhau cho các tác vụ hoặc môi trường khác nhau.
-    Tương tác OS cấp thấp đáng tin cậy:
-    Sử dụng một dịch vụ phụ trợ được viết bằng C# (Windows) để thực hiện các thao tác chuột/bàn phím và tương tác với hệ thống.
-    Giao tiếp qua Named Pipes để đảm bảo độ tin cậy, hiệu suất cao và khả năng tránh các xung đột thường gặp khi tự động hóa UI bằng Python thuần túy.
-    Hỗ trợ các cửa sổ tương tác (overlay trong suốt) để chọn điểm, vùng, hoặc vẽ đường đi trên màn hình một cách trực quan.
-
-======================================================================================================================================================
-
-## Kiến trúc
-
-Dự án sử dụng kiến trúc phân tầng kết hợp Python và C# để tận dụng tối đa thế mạnh của từng ngôn ngữ:
+The project uses a layered architecture combining Python and C# to leverage the strengths of each language:
 
     graph TD
     subgraph Python Layer
@@ -116,187 +109,173 @@ Dự án sử dụng kiến trúc phân tầng kết hợp Python và C# để t
         J --> L(Windows API / InputSimulatorStandard)
     end
     G <--> I
-
 Python Layer:
-    main.py: Điểm vào ứng dụng, khởi tạo các thành phần chính và khởi động dịch vụ C#.
-    
-    GUI (Tkinter): Cung cấp giao diện người dùng tương tác, được xây dựng trên các module như gui/job_list, gui/job_edit, gui/trigger_list, v.v.
-    
-    JobManager: Trung tâm điều phối chính, quản lý tất cả Jobs, Triggers, Shared Conditions và Profile. Nó giao tiếp với ConfigLoader để lưu/tải dữ liệu và điều khiển các JobExecutor và Observer.
-    
-    Observer: Chạy trong một luồng nền, chịu trách nhiệm quản lý và kích hoạt các Triggers, đồng thời duy trì "trạng thái thế giới" cho tính năng AI Brain.
-    
-    JobExecutor: Chạy trong một luồng riêng cho mỗi Job, thực thi các hành động của Job theo tuần tự và logic rẽ nhánh.
-    
-    Actions & Conditions: Các định nghĩa logic cốt lõi cho các hành động và điều kiện tự động hóa.
-    
-    Python C# Bridge (python_csharp_bridge.py): Lớp client Python chịu trách nhiệm giao tiếp với dịch vụ C# thông qua Named Pipes. Nó dịch các yêu cầu 
-    
-    Python thành định dạng JSON và gửi đi, sau đó nhận và giải mã phản hồi.
-    
-    Utilities: Các module hỗ trợ cho việc quản lý cấu hình, lưu trữ hình ảnh, xử lý hình ảnh, phân tích màu sắc và chuyển đổi nét vẽ.
-    
+
+    main.py: Application entry point, initializes core components and starts the C# service.
+
+    GUI (Tkinter): Interactive UI built on modules like gui/job_list, gui/job_edit, gui/trigger_list, etc.
+
+    JobManager: Central coordinator managing all Jobs, Triggers, Shared Conditions, and Profiles. Communicates with ConfigLoader for saving/loading data and controls JobExecutor and Observer.
+
+    Observer: Runs in a background thread, manages Triggers, and maintains "world state" for AI Brain.
+
+    JobExecutor: Runs in a separate thread per Job, executing actions sequentially and handling branching logic.
+
+    Actions & Conditions: Core logic definitions for automation actions and conditions.
+
+    Python-C# Bridge (python_csharp_bridge.py): Python client communicating with the C# service via Named Pipes; translates Python requests into JSON and decodes responses.
+
+    Utilities: Helper modules for configuration management, image storage, image processing, color analysis, and drawing path conversion.
+
 C# Layer (OS Interaction Service):
-    Một ứng dụng console chạy ẩn dưới dạng dịch vụ. 
-    
-    Named Pipe Server: Được thiết lập trong sever/Program.cs, lắng nghe các kết nối và yêu cầu JSON từ Python thông qua Named Pipes.
-    
-    OS Interactions: Module cốt lõi thực hiện các tương tác cấp thấp với hệ điều hành Windows bằng cách sử dụng WinAPI (thông qua P/Invoke) và thư viện 
-    
-    InputSimulatorStandard để giả lập chuột/bàn phím.
-    
-    Interactive Capture Service: Một module C# chuyên biệt xử lý các tương tác phức tạp hơn như chọn vùng, chọn điểm, và vẽ tương tác trên màn hình bằng cách hiển thị các lớp phủ (overlay) trong suốt và sử dụng Global Hooks.
 
-    Communication Protocol: Được định nghĩa trong sever/Protocol.cs (JSON request/response).
+    A console application running in the background.
 
-======================================================================================================================================================
+    Named Pipe Server: Defined in server/Program.cs, listens for JSON requests from Python.
 
-## Cài đặt
+    OS Interactions: Low-level OS interactions implemented using WinAPI (via P/Invoke) and InputSimulatorStandard library.
 
-Yêu cầu hệ thống
-- Hệ điều hành: Windows 10/11 (Named Pipe và các tương tác OS cấp thấp được triển khai cụ thể cho Windows).
-- Python: Python 3.8 trở lên.
-- .NET SDK: .NET 8 SDK trở lên (để build dịch vụ C#).
-- Tesseract OCR: Cài đặt Tesseract OCR nếu bạn muốn sử dụng các tính năng điều kiện nhận dạng văn bản.
+    Interactive Capture Service: Handles advanced interactions like region selection, point selection, and interactive drawing using transparent overlays and global hooks.
 
-Các bước cài đặt
-Clone Repository:
-    git clone <URL_repository_của_bạn>
-    cd <thư_mục_dự_án>
+    Communication Protocol: Defined in server/Protocol.cs (JSON request/response).
 
-Cài đặt các gói Python:
+## Installation
+
+System Requirements:
+- OS: Windows 10/11 (Named Pipe and low-level OS interactions implemented specifically for Windows).
+- Python: Python 3.8 or higher.
+- .NET SDK: .NET 8 SDK or higher (to build the C# service).
+- Tesseract OCR: Install if you want to use text recognition conditions.
+
+Installation Steps:
+
+Clone the repository:
+    git clone <your_repository_URL>
+    cd <project_directory>
+
+Install Python packages:
     pip install -r requirements.txt
 
-Build dịch vụ C# OS Interaction:
-+ Điều hướng đến thư mục chứa project C# (sever/).
-+ Build project ở chế độ Debug hoặc Release cho nền tảng Windows.
+Build the C# OS Interaction Service:
++ Navigate to the C# project directory (server/).
++ Build in Debug or Release mode for Windows:
 
-    cd sever
+    cd server
     dotnet publish -c Debug -r win-x64 --self-contained false
 
-Sau khi build, tệp thực thi sẽ nằm trong thư mục ví dụ: sever/bin/Debug/net9.0-windows/sever.exe.
-Cấu hình đường dẫn thực thi C# trong main.py:
-+ Mở tệp main.py ở thư mục gốc của dự án Python.
-+ Tìm dòng CSHARP_EXE_PATH_RELATIVE = ... và cập nhật đường dẫn tương đối đến tệp sever.exe đã build.
-+ Ví dụ: Nếu thư mục dự án của bạn là ACE/ và main.py nằm trong ACE/main.py, còn sever.exe nằm trong ACE/sever/bin/Debug/net9.0-windows/sever.exe, thì đường dẫn tương đối sẽ là:
+After building, the executable will be in e.g.: server/bin/Debug/net9.0-windows/server.exe.
+Configure the C# executable path in main.py:
++ Open main.py in the project root.
++ Find CSHARP_EXE_PATH_RELATIVE = ... and update it with the relative path to the built server.exe.
++ Example:
++ CSHARP_EXE_PATH_RELATIVE = os.path.join("server", "bin", "Debug", "net9.0-windows", CSHARP_EXE_NAME)
 
-    CSHARP_EXE_PATH_RELATIVE = os.path.join("sever", "bin", "Debug", "net9.0-windows", CSHARP_EXE_NAME)
+Install and configure Tesseract OCR (optional):
++ Download and install from GitHub.
++ Ensure tesseract.exe is in the system PATH, OR
++ Configure the path directly in core/condition.py (pytesseract.pytesseract.tesseract_cmd = ...).
 
-(Hoặc os.path.join("..", "sever", "bin", "Debug", "net9.0-windows", CSHARP_EXE_NAME) nếu main.py nằm trong một thư mục con như ACE/src/main.py và sever/ nằm ngang hàng với src/).
+## Usage
 
-Cài đặt và cấu hình Tesseract OCR (Tùy chọn, nếu bạn dùng tính năng văn bản):
-+ Tải xuống và cài đặt Tesseract OCR từ GitHub Tesseract.
-+ Đảm bảo tesseract.exe nằm trong biến môi trường PATH của hệ thống, HOẶC
-+ Cấu hình đường dẫn trực tiếp trong tệp core/condition.py (tìm dòng pytesseract.pytesseract.tesseract_cmd = ...).
+To start the application:
 
-======================================================================================================================================================
-## Cách sử dụng
+python main.py
 
-Để khởi chạy ứng dụng:
 
-    python main.py
+The Tkinter GUI will launch.
 
-Ứng dụng sẽ khởi động giao diện người dùng Tkinter.
+    Create Jobs: Use the "Job List" tab to add new Jobs, edit actions, hotkeys, and run conditions.
 
-    Tạo Jobs: Sử dụng tab "Job List" để thêm Jobs mới, chỉnh sửa hành động, hotkey và điều kiện chạy.
+    Create Triggers: Use the "Triggers" tab to define auto-trigger conditions.
 
-    Tạo Triggers: Sử dụng tab "Triggers" để định nghĩa các điều kiện kích hoạt tự động.
+    Manage Shared Conditions: Use "Shared Conditions" tab for reusable conditions.
 
-    Quản lý điều kiện chia sẻ: Sử dụng tab "Shared Conditions" để tạo và quản lý các điều kiện có thể tái sử dụng.
+    AI Brain: Explore the "AI Brain" tab to configure monitored conditions and AI Triggers. Enable "AI Brain Active" to turn it on.
 
-    AI Brain: Khám phá tab "AI Brain" để định cấu hình các điều kiện được theo dõi và các AI Triggers. Bật "AI Brain Active" để kích hoạt chế độ này.
+    Drawing Templates: Create or edit drawing templates in the "Drawing Templates" tab, then add them to Jobs as drawing action blocks.
 
-    Drawing Templates: Tạo hoặc chỉnh sửa các mẫu vẽ trong tab "Drawing Templates", sau đó thêm chúng vào Jobs dưới dạng các khối hành động vẽ.
+Profiles:
 
-Cấu hình
+    The application manages separate configurations (Jobs, Triggers, Conditions, Drawing Templates) as "Profiles".
 
-    Hồ sơ (Profiles)
+    Switch between profiles, create new ones, or delete (except default and active) via the Profiles menu.
 
-    Ứng dụng quản lý các cấu hình riêng biệt (Jobs, Triggers, Conditions, Drawing Templates) thành các "Hồ sơ" (Profiles).
+    Profile files are stored in the profiles/ directory as .profile.json.
 
-    Bạn có thể chuyển đổi giữa các hồ sơ, tạo hồ sơ mới, hoặc xóa hồ sơ (trừ hồ sơ default và hồ sơ đang hoạt động) thông qua menu Profiles trên thanh menu chính.
+C# Service Path:
 
-    Các file hồ sơ được lưu trữ trong thư mục profiles/ dưới dạng .profile.json.
+    This is crucial. The C# service (server.exe) must be found and run correctly. Configured in main.py.
 
-Đường dẫn dịch vụ C#
-    Đây là cài đặt quan trọng nhất. Dịch vụ C# (sever.exe) phải được tìm thấy và chạy đúng cách để ứng dụng hoạt động. Đường dẫn này được cấu hình trong main.py (xem Cài đặt).
+Tesseract OCR:
 
-Tesseract OCR
-    Nếu bạn sử dụng điều kiện "Text on Screen" hoặc "Text in Relative Region", bạn cần đảm bảo Tesseract OCR được cài đặt và có thể truy cập được bởi Python.
-    Tốt nhất là thêm thư mục cài đặt Tesseract vào biến môi trường PATH của hệ thống.
-    Nếu không, bạn có thể chỉnh sửa thủ công đường dẫn tesseract_cmd trong tệp core/condition.py để trỏ trực tiếp đến tesseract.exe.
+    If using "Text on Screen" or "Text in Relative Region", ensure Tesseract OCR is installed and accessible.
 
-======================================================================================================================================================
+    Best practice: add its install directory to system PATH.
 
-## Cấu trúc dự án
+    Otherwise, manually configure tesseract_cmd in core/condition.py.
 
-├── main.py                     # Điểm vào chính của ứng dụng
-├── requirements.txt            # Danh sách các thư viện Python cần thiết
-├── profiles/                   # Thư mục chứa các file cấu hình hồ sơ (.profile.json)
-├── captured_images/            # Thư mục để lưu trữ các hình ảnh chụp màn hình
-├── config.json                 # File cấu hình chung của ứng dụng
-├── core/                       # Chứa logic cốt lõi của ứng dụng
-│   ├── job.py                  # Định nghĩa Job và cấu trúc của nó
-│   ├── action.py               # Định nghĩa Action và các lớp con (Click, Move, Key, v.v.)
-│   ├── job_run_condition.py    # Định nghĩa các điều kiện chạy Job
-│   ├── condition.py            # Định nghĩa Condition và các lớp con (Image, Text, Color, Window, Process)
-│   ├── condition_manager.py    # Quản lý các Condition chia sẻ
-│   ├── trigger.py              # Định nghĩa Trigger và TriggerAction
-│   ├── observer.py             # Luồng nền để theo dõi và kích hoạt các Trigger
-│   └── job_executor.py         # Luồng riêng để thực thi một Job
-├── gui/                        # Chứa tất cả các thành phần giao diện người dùng (Tkinter)
-│   ├── main_window.py          # Cửa sổ chính và quản lý tab
-│   ├── job_list.py             # Hiển thị danh sách Job
-│   ├── job_edit.py             # Chỉnh sửa chi tiết Job
-│   ├── action_edit_window.py   # Chỉnh sửa chi tiết Action
-│   ├── action_settings.py      # Các widget cấu hình động cho Action
-│   ├── job_run_condition_settings.py # Các widget cấu hình động cho JobRunCondition
-│   ├── key_recorder.py         # Ghi lại phím nóng
-│   ├── trigger_list.py         # Hiển thị danh sách Trigger
-│   ├── trigger_edit.py         # Chỉnh sửa chi tiết Trigger
-│   ├── shared_condition_list.py # Hiển thị danh sách Condition chia sẻ
-│   ├── shared_condition_edit_window.py # Chỉnh sửa chi tiết Condition chia sẻ
-│   ├── shape_template_list.py  # Hiển thị danh sách Drawing Template
-│   ├── shape_template_editor.py # Chỉnh sửa chi tiết Drawing Template
-│   ├── ai_brain_management_tab.py # Quản lý các tính năng AI Brain
-│   ├── select_target_dialog.py # Dialog chọn mục từ danh sách
-│   ├── coordinate_capture_window.py # Điều phối việc chọn điểm tương tác
-│   ├── drawing_capture_window.py # Điều phối việc vẽ tương tác
-│   └── screen_capture_window.py # Điều phối việc chọn vùng tương tác
-├── utils/                      # Các module tiện ích chung
-│   ├── config_loader.py        # Tải/lưu cấu hình
-│   ├── image_storage.py        # Quản lý lưu trữ hình ảnh
-│   ├── image_processing.py     # Tiền xử lý hình ảnh (sử dụng OpenCV)
-│   ├── image_analysis.py       # Phân tích màu sắc trong hình ảnh
-│   ├── color_utils.py          # Chuyển đổi màu sắc (Hex/RGB)
-│   ├── parsing_utils.py        # Hàm tiện ích phân tích chuỗi
-│   └── drawing_utils.py        # Chuyển đổi dữ liệu nét vẽ thành Actions
-├── sever/                      # Thư mục chứa mã nguồn C# cho dịch vụ tương tác OS
-│   ├── bin/                    # Tệp thực thi C# được build (ví dụ: sever.exe)
-│   ├── obj/                    # Tệp tạm thời của quá trình build
-│   ├── Program.cs              # Điểm vào chính của dịch vụ C#, xử lý Named Pipe
-│   ├── OSInteractions.cs       # Triển khai các tương tác OS cấp thấp (click, key, capture)
-│   ├── InteractiveCaptureService.cs # Triển khai các tính năng chụp tương tác (drawing, region, point)
-│   └── sever.csproj            # Tệp dự án C#
-└── python_csharp_bridge.py     # Lớp client Python để giao tiếp với dịch vụ C#
+## Project Structure
+├──autoclicker/
+│   ├── python_csharp_bridge.py
+│   ├── main.py
+│   ├── core/
+│   │   ├── job.py
+│   │   ├── action.py
+│   │   ├── job_run_condition.py
+│   │   ├── condition.py
+│   │   ├── condition_manager.py
+│   │   ├── trigger.py
+│   │   ├── observer.py
+│   │   └── job_executor.py
+│   ├── gui/
+│   │   ├── main_window.py
+│   │   ├── job_list.py
+│   │   ├── job_edit.py
+│   │   ├── action_edit_window.py
+│   │   ├── action_settings.py
+│   │   ├── job_run_condition_settings.py
+│   │   ├── key_recorder.py
+│   │   ├── trigger_list.py
+│   │   ├── trigger_edit.py
+│   │   ├── shared_condition_list.py
+│   │   ├── shared_condition_edit_window.py
+│   │   ├── shape_template_list.py
+│   │   ├── shape_template_editor.py
+│   │   ├── ai_brain_management_tab.py
+│   │   ├── select_target_dialog.py
+│   │   ├── coordinate_capture_window.py
+│   │   ├── drawing_capture_window.py
+│   │   └── screen_capture_window.py
+│   ├── utils/
+│   │   ├── config_loader.py
+│   │   ├── image_storage.py
+│   │   ├── image_processing.py
+│   │   ├── image_analysis.py
+│   │   ├── color_utils.py
+│   │   ├── parsing_utils.py
+│   │   └── drawing_utils.py
+│   └── server/
+│       ├── bin/
+│       ├── obj/
+│       ├── Program.cs
+│       ├── OSInteractions.cs
+│       ├── InteractiveCaptureService.cs
+│       └── server.csproj
+├── profiles/
+├── captured_images/
+└── sever/
 
-======================================================================================================================================================
+## Contribution
+Contributions are welcome! To improve this project:
+Fork the repository.
+Create a new branch: git checkout -b feature/AmazingFeature.
+Make your changes.
+Commit: git commit -m 'Add some AmazingFeature'.
+Push: git push origin feature/AmazingFeature.
+Open a Pull Request.
 
-## Đóng góp
-Chào mừng mọi đóng góp! Nếu bạn muốn cải thiện dự án này:
-Fork repository.
-Tạo một nhánh mới (git checkout -b feature/AmazingFeature).
-Thực hiện các thay đổi của bạn.
-Commit các thay đổi của bạn (git commit -m 'Add some AmazingFeature').
-Push lên nhánh của bạn (git push origin feature/AmazingFeature).
-Mở một Pull Request.
+## License
+This project is licensed under the MIT License. See the LICENSE file for details.
 
-======================================================================================================================================================
-
-## Giấy phép
-Dự án này được cấp phép theo Giấy phép MIT. Xem tệp `LICENSE` để biết thêm chi tiết.
-
-======================================================================================================================================================
-
-## Liên hệ
-Nếu bạn có bất kỳ câu hỏi hoặc cần hỗ trợ, vui lòng mở một Issue trong repository này.
+## Contact
+For questions or support, please open an Issue in this repository.
