@@ -41,7 +41,7 @@ else:
     # Nếu đang chạy trong môi trường phát triển Python bình thường
     current_script_dir = os.path.dirname(os.path.abspath(__file__))
     project_root = os.path.abspath(os.path.join(current_script_dir, os.pardir))
-    csharp_dev_build_dir = os.path.join(project_root, "sever", "bin", "Debug", "net9.0-windows")
+    csharp_dev_build_dir = os.path.join(project_root, "sever", "bin", "Debug", "net9.0-windows","win-x64","publish")
     csharp_exe_full_path = os.path.join(csharp_dev_build_dir, CSHARP_EXE_NAME)
     logger.debug(f"Running in dev environment. C# EXE path: {csharp_exe_full_path}")
 

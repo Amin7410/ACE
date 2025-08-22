@@ -157,12 +157,16 @@ Yêu cầu hệ thống
 - .NET SDK: .NET 8 SDK trở lên (để build dịch vụ C#).
 - Tesseract OCR: Cài đặt Tesseract OCR nếu bạn muốn sử dụng các tính năng điều kiện nhận dạng văn bản.
 
+Tải thư viện:
+    pip install -r requirements.txt
+
 Các bước cài đặt
 Clone Repository:
     git clone <thư-mục-dự-án-của-bạn>
     cd <https://github.com/Amin7410/ACE.git>
 
 Cài đặt các gói Python:
+    cd .\autoclicker\
     pip install -r requirements.txt
 
 Build dịch vụ C# OS Interaction:

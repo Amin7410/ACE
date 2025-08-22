@@ -152,9 +152,8 @@ Installation Steps:
 Clone the repository:
     cd <your-project_directory>
     git clone <https://github.com/Amin7410/ACE.git>
-    
 
-Install Python packages:
+Download library:
     pip install -r requirements.txt
 
 Build the C# OS Interaction Service:

@@ -1,0 +1,7 @@
+# Core Libraries
+numpy
+opencv-python-headless
+Pillow
+keyboard
+pytesseract
+pywin32
