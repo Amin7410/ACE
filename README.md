@@ -1,4 +1,4 @@
-Auto Clicker Enhanced: Một Công Cụ Tự Động Hóa UI Mạnh Mẽ với Khả Năng AI
+Auto Clicker Enhanced: Một Công Cụ Tự Động Hóa UI Mạnh Mẽ 
 ![alt text](https://img.shields.io/badge/Python-3.8%2B-blue.svg?logo=python&logoColor=white)
 
 ![alt text](https://img.shields.io/badge/C%23-.NET-purple.svg?logo=csharp&logoColor=white)

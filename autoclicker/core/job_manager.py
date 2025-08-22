@@ -435,13 +435,17 @@ class JobManager:
             logger.info(f"Trigger '{original_name}' updated (new name: '{new_name}').")
 
 
-    def delete_trigger(self, name: str) -> None:
+    def delete_trigger(self, name: str) -> bool:
         with self.lock:
-            if name not in self.triggers: raise ValueError(f"Trigger '{name}' not found.")
+            if name not in self.triggers:
+                logger.warning(f"Attempted to delete non-existent trigger: '{name}'.")
+                return False 
+
             del self.triggers[name]
             if self.observer: self.observer.load_triggers(list(self.triggers.values()))
             self.save_current_profile()
             logger.info(f"Trigger '{name}' deleted.")
+            return True 
 
 
     def enable_trigger(self, name: str, enable_status: bool) -> None:

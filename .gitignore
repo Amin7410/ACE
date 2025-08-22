@@ -1,0 +1,18 @@
+# ==================================
+# Python
+captured_images/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.env
+venv/
+env/
+
+# ==================================
+# Visual Studio / .NET Core
+.vs/
+*.user
+*.suo
+[Bb]in/
+[Oo]bj/

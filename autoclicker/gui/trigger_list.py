@@ -261,10 +261,9 @@ class TriggerList(ttk.Frame):
             for trigger_name in selected_names:
                 try:
                     logger.info(f"Attempting deletion of trigger: {trigger_name}")
-                    self.job_manager.delete_trigger(trigger_name)
-                    if self.tree.exists(trigger_name):
-                        self.tree.delete(trigger_name)
-                    deleted_count += 1
+                    if self.job_manager.delete_trigger(trigger_name):
+                        deleted_count += 1
+                 
                 except Exception as e:
                     logger.error(f"Error deleting trigger '{trigger_name}': {e}", exc_info=True)
                     errors.append(f"'{trigger_name}': {e}")
@@ -272,9 +271,8 @@ class TriggerList(ttk.Frame):
             logger.info(f"Finished bulk trigger deletion. Deleted: {deleted_count}/{count}.")
             if errors:
                 messagebox.showerror("Deletion Error", f"Errors occurred during deletion:\n" + "\n".join(errors[:3]) + ("\n..." if len(errors)>3 else ""), parent=self)
-            self.tree.selection_set([])
-            self.tree.focus("")
-            self._update_trigger_buttons_state() 
+        
+            self.refresh_trigger_list()
 
     def _toggle_enable_selected_trigger(self):
         selected_names = self.get_selected_trigger_names()

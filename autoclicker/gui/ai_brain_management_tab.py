@@ -124,52 +124,120 @@ class AIBrainManagementTab(ttk.Frame):
 
     def _populate_monitored_conditions_tree(self) -> None:
         try:
-            for item in self.monitored_conditions_tree.get_children(): self.monitored_conditions_tree.delete(item)
-        except tk.TclError: return
-        if not self.job_manager or not self.job_manager.condition_manager: return
+            selected_iids = self.monitored_conditions_tree.selection()
 
-        condition_manager = self.job_manager.condition_manager; all_shared: List[Condition] = []
-        if hasattr(condition_manager, 'get_all_shared_conditions'): all_shared = condition_manager.get_all_shared_conditions() # type: ignore
-        monitored_conditions: List[Condition] = []
-        world_state: Dict[str, bool] = {}
-        if self.job_manager.observer and hasattr(self.job_manager.observer, '_monitored_conditions_map') and isinstance(self.job_manager.observer._monitored_conditions_map, dict):
-            with self.job_manager.observer.lock: world_state = copy.deepcopy(self.job_manager.observer._monitored_conditions_map)
-        
-        for cond in all_shared:
-            if hasattr(cond, 'is_monitored_by_ai_brain') and cond.is_monitored_by_ai_brain: monitored_conditions.append(cond)
-        monitored_conditions.sort(key=lambda c: c.name.lower() if hasattr(c,'name') and c.name else "")
+            if not self.job_manager or not self.job_manager.condition_manager:
+                for item in self.monitored_conditions_tree.get_children():
+                    self.monitored_conditions_tree.delete(item)
+                return
 
-        if not monitored_conditions:
-            self.monitored_conditions_tree.insert("", tk.END, values=("(No conditions monitored by AI Brain)", "", "", ""), tags=('disabled',))
-        else:
+            condition_manager = self.job_manager.condition_manager
+            all_shared: List[Condition] = []
+            if hasattr(condition_manager, 'get_all_shared_conditions'):
+                all_shared = condition_manager.get_all_shared_conditions()
+
+            monitored_conditions: List[Condition] = []
+            world_state: Dict[str, bool] = {}
+            if self.job_manager.observer and hasattr(self.job_manager.observer, '_monitored_conditions_map'):
+                with self.job_manager.observer.lock:
+                    world_state = copy.deepcopy(self.job_manager.observer._monitored_conditions_map)
+
+            for cond in all_shared:
+                if hasattr(cond, 'is_monitored_by_ai_brain') and cond.is_monitored_by_ai_brain:
+                    monitored_conditions.append(cond)
+            
+            monitored_conditions.sort(key=lambda c: c.name.lower() if hasattr(c, 'name') and c.name else "")
+            
+            current_tree_iids = set(self.monitored_conditions_tree.get_children())
+            new_data_ids = {cond.id for cond in monitored_conditions if hasattr(cond, 'id')}
+
+            ids_to_add = new_data_ids - current_tree_iids
+            ids_to_remove = current_tree_iids - new_data_ids
+            ids_to_update = current_tree_iids.intersection(new_data_ids)
+
+            for iid_to_remove in ids_to_remove:
+                if self.monitored_conditions_tree.exists(iid_to_remove):
+                    self.monitored_conditions_tree.delete(iid_to_remove)
+
             for cond_obj in monitored_conditions:
-                if not (hasattr(cond_obj, 'id') and hasattr(cond_obj, 'name') and hasattr(cond_obj, 'type')): continue
-                current_state_val = world_state.get(cond_obj.id, False)
-                current_state_display = "TRUE" if current_state_val else "FALSE"
-                tag_to_apply = 'state_true' if current_state_val else 'state_false'
-                self.monitored_conditions_tree.insert("", tk.END, iid=cond_obj.id, values=(cond_obj.name, cond_obj.id, cond_obj.type, current_state_display), tags=(tag_to_apply,))
+                if hasattr(cond_obj, 'id') and cond_obj.id in ids_to_add:
+                    current_state_val = world_state.get(cond_obj.id, False)
+                    current_state_display = "TRUE" if current_state_val else "FALSE"
+                    tag_to_apply = 'state_true' if current_state_val else 'state_false'
+                    self.monitored_conditions_tree.insert("", tk.END, iid=cond_obj.id, values=(cond_obj.name, cond_obj.id, cond_obj.type, current_state_display), tags=(tag_to_apply,))
+
+            for cond_obj in monitored_conditions:
+                if hasattr(cond_obj, 'id') and cond_obj.id in ids_to_update:
+                    current_state_val = world_state.get(cond_obj.id, False)
+                    current_state_display = "TRUE" if current_state_val else "FALSE"
+                    tag_to_apply = 'state_true' if current_state_val else 'state_false'
+                    self.monitored_conditions_tree.set(cond_obj.id, column="current_state", value=current_state_display)
+                    self.monitored_conditions_tree.item(cond_obj.id, tags=(tag_to_apply,))
+            if selected_iids:
+                valid_selection = [iid for iid in selected_iids if self.monitored_conditions_tree.exists(iid)]
+                if valid_selection:
+                    self.monitored_conditions_tree.selection_set(valid_selection)
+            if not self.monitored_conditions_tree.get_children():
+                self.monitored_conditions_tree.insert("", tk.END, values=("(No conditions monitored by AI Brain)", "", "", ""), tags=('disabled',))
+        except tk.TclError:
+            return
         self._update_monitored_conditions_buttons_state()
 
     def _populate_ai_triggers_tree(self) -> None:
         try:
-            for item in self.ai_triggers_tree.get_children(): self.ai_triggers_tree.delete(item)
-        except tk.TclError: return
-        if not self.job_manager: return
-        
-        ai_triggers_list: List[Trigger] = [] # type: ignore
-        if self.job_manager.observer and hasattr(self.job_manager.observer, '_ai_triggers'):
-            with self.job_manager.observer.lock: ai_triggers_list = sorted([t for t in self.job_manager.observer._ai_triggers if hasattr(t, 'name')], key=lambda t: t.name.lower()) # type: ignore
-        elif hasattr(self.job_manager, 'triggers'):
-             ai_triggers_list = sorted([t for t in self.job_manager.triggers.values() if hasattr(t, 'is_ai_trigger') and t.is_ai_trigger and hasattr(t, 'name')], key=lambda t: t.name.lower()) # type: ignore
+            selected_iids = self.ai_triggers_tree.selection()
 
-        if not ai_triggers_list:
-            self.ai_triggers_tree.insert("", tk.END, values=("(No AI Brain Triggers defined)", "", "", ""), tags=('disabled',))
-        else:
+            if not self.job_manager:
+                for item in self.ai_triggers_tree.get_children():
+                    self.ai_triggers_tree.delete(item)
+                return
+
+            ai_triggers_list: List[Trigger] = []
+            if self.job_manager.observer and hasattr(self.job_manager.observer, '_ai_triggers'):
+                with self.job_manager.observer.lock:
+                    ai_triggers_list = sorted([t for t in self.job_manager.observer._ai_triggers if hasattr(t, 'name')], key=lambda t: t.name.lower())
+            elif hasattr(self.job_manager, 'triggers'):
+                ai_triggers_list = sorted([t for t in self.job_manager.triggers.values() if hasattr(t, 'is_ai_trigger') and t.is_ai_trigger and hasattr(t, 'name')], key=lambda t: t.name.lower())
+
+            current_tree_iids = set(self.ai_triggers_tree.get_children())
+            new_data_ids = {trigger.name for trigger in ai_triggers_list if hasattr(trigger, 'name')}
+
+            ids_to_add = new_data_ids - current_tree_iids
+            ids_to_remove = current_tree_iids - new_data_ids
+            ids_to_update = current_tree_iids.intersection(new_data_ids)
+
+            for iid_to_remove in ids_to_remove:
+                if self.ai_triggers_tree.exists(iid_to_remove):
+                    self.ai_triggers_tree.delete(iid_to_remove)
+
             for trigger_obj in ai_triggers_list:
-                if not (hasattr(trigger_obj, 'name') and hasattr(trigger_obj, 'conditions') and hasattr(trigger_obj, 'actions') and hasattr(trigger_obj, 'enabled')): continue
-                cond_summary = self._format_ai_trigger_condition_summary(trigger_obj); action_summary = self._format_trigger_action_summary(trigger_obj)
-                enabled_text = "Yes" if trigger_obj.enabled else "No"; tags = [] if trigger_obj.enabled else ['disabled']
-                self.ai_triggers_tree.insert("", tk.END, iid=trigger_obj.name, values=(trigger_obj.name, cond_summary, action_summary, enabled_text), tags=tuple(tags))
+                if hasattr(trigger_obj, 'name') and trigger_obj.name in ids_to_add:
+                    cond_summary = self._format_ai_trigger_condition_summary(trigger_obj)
+                    action_summary = self._format_trigger_action_summary(trigger_obj)
+                    enabled_text = "Yes" if trigger_obj.enabled else "No"
+                    tags = [] if trigger_obj.enabled else ['disabled']
+                    self.ai_triggers_tree.insert("", tk.END, iid=trigger_obj.name, values=(trigger_obj.name, cond_summary, action_summary, enabled_text), tags=tuple(tags))
+
+            for trigger_obj in ai_triggers_list:
+                if hasattr(trigger_obj, 'name') and trigger_obj.name in ids_to_update:
+                    cond_summary = self._format_ai_trigger_condition_summary(trigger_obj)
+                    action_summary = self._format_trigger_action_summary(trigger_obj)
+                    enabled_text = "Yes" if trigger_obj.enabled else "No"
+                    tags = [] if trigger_obj.enabled else ['disabled']
+
+                    self.ai_triggers_tree.item(trigger_obj.name, 
+                                            values=(trigger_obj.name, cond_summary, action_summary, enabled_text), 
+                                            tags=tuple(tags))
+
+            if selected_iids:
+                valid_selection = [iid for iid in selected_iids if self.ai_triggers_tree.exists(iid)]
+                if valid_selection:
+                    self.ai_triggers_tree.selection_set(valid_selection)
+
+            if not self.ai_triggers_tree.get_children():
+                self.ai_triggers_tree.insert("", tk.END, values=("(No AI Brain Triggers defined)", "", "", ""), tags=('disabled',))
+        except tk.TclError:
+            return
         self._update_ai_triggers_buttons_state()
 
     def _format_ai_trigger_condition_summary(self, trigger: Trigger) -> str: # type: ignore
