@@ -1,37 +1,5 @@
 {
-    "jobs": {
-        "1": {
-            "name": "1",
-            "actions": [
-                {
-                    "type": "click",
-                    "params": {
-                        "x": 721,
-                        "y": 101,
-                        "delay_before": 0.0,
-                        "button": "left",
-                        "click_type": "single",
-                        "hold_duration": 0.0
-                    },
-                    "condition_id": null,
-                    "next_action_index_if_condition_met": null,
-                    "next_action_index_if_condition_not_met": null,
-                    "is_absolute": false,
-                    "fallback_action_sequence": null
-                }
-            ],
-            "hotkey": "",
-            "stop_key": "",
-            "enabled": true,
-            "run_condition": {
-                "type": "infinite",
-                "params": {}
-            },
-            "params": {
-                "delay_between_runs_s": 0.01
-            }
-        }
-    },
+    "jobs": {},
     "triggers": {},
     "shape_templates": {
         "meo": {
