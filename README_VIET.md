@@ -159,7 +159,7 @@ Yêu cầu hệ thống
 
 Các bước cài đặt
 Clone Repository:
-    git clone <https://github.com/Amin7410/ACE.git>
+    git clone <thư-mục-dự-án-của-bạn>
     cd <https://github.com/Amin7410/ACE.git>
 
 Cài đặt các gói Python:

@@ -150,8 +150,9 @@ System Requirements:
 Installation Steps:
 
 Clone the repository:
+    cd <your-project_directory>
     git clone <https://github.com/Amin7410/ACE.git>
-    cd <https://github.com/Amin7410/ACE.git>
+    
 
 Install Python packages:
     pip install -r requirements.txt
